@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentation - HealthGIS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS & Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #192734 0%, #283e51 100%);
+      color: #f8f9fa;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .navbar {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+    }
+    .nav-link.active, .nav-link:hover {
+      color: #ffc107 !important;
+      font-weight: 500;
+      border-bottom: 2px solid #ffc107;
+      transition: border-bottom 0.2s;
+    }
+    .container {
+      max-width: 900px;
+    }
+    h2, h4 {
+      color: #ffc107;
+      letter-spacing: 1px;
+    }
+    .section {
+      margin-bottom: 2.5rem;
+      background: rgba(25, 39, 52, 0.95);
+      border-radius: 1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+      padding: 2rem 2rem 1.5rem 2rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .section:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+    }
+    .section-toggle {
+      background: none;
+      border: none;
+      color: #ffc107;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      margin-right: 0.5rem;
+      transition: color 0.2s;
+    }
+    .section-toggle:focus, .section-toggle:hover {
+      color: #ffe082;
+      text-decoration: underline;
+    }
+    ul {
+      list-style-type: square;
+      padding-left: 1.5rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+    strong {
+      color: #ffe082;
+    }
+    code {
+      color: #ffd54f;
+      background: #232b32;
+      padding: 2px 6px;
+      border-radius: 0.3rem;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    code.copied {
+      background: #ffc107;
+      color: #192734;
+    }
+    .text-muted {
+      color: #b0b8c1 !important;
+      font-size: 0.98rem;
+    }
+    .toc {
+      background: rgba(25, 39, 52, 0.92);
+      border-radius: 0.8rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .toc-title {
+      font-size: 1.15rem;
+      color: #ffc107;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+    .toc a {
+      color: #ffe082;
+      text-decoration: none;
+      font-size: 1.04rem;
+      display: block;
+      margin-bottom: 0.5rem;
+      transition: color 0.2s;
+    }
+    .toc a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+    .feedback-btn {
+      position: fixed;
+      right: 24px;
+      bottom: 32px;
+      z-index: 1000;
+      background: #ffc107;
+      color: #192734;
+      font-weight: 600;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.7rem 1.6rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .feedback-btn:hover {
+      background: #ffe082;
+      color: #283e51;
+    }
+    .modal-content {
+      background: #232b32;
+      color: #f8f9fa;
+      border-radius: 1rem;
+    }
+    .modal-header {
+      border-bottom: 1px solid #ffc107;
+    }
+    .modal-title {
+      color: #ffc107;
+    }
+    .modal-footer {
+      border-top: 1px solid #ffc107;
+    }
+    .copy-hint {
+      font-size: 0.9em;
+      color: #b0b8c1;
+      margin-left: 0.5em;
+    }
+    .section-highlight {
+      position: absolute;
+      right: 1.5rem;
+      top: 1.5rem;
+      font-size: 1.5rem;
+      color: #ffc107;
+      opacity: 0.15;
+      pointer-events: none;
+      user-select: none;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 0 0.5rem;
+      }
+      .section {
+        padding: 1.2rem 1rem 1rem 1rem;
+      }
+      .feedback-btn {
+        right: 12px;
+        bottom: 16px;
+        padding: 0.5rem 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand text-warning" href="home.html">HealthGIS</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="map.html">Map</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#">Documentation</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <h2 class="mb-4 text-center">📄 Project Documentation</h2>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+      <div class="toc-title"><i class="bi bi-list-ul"></i> Quick Navigation</div>
+      <a href="#intro">🧩 Introduction</a>
+      <a href="#arch">🧱 Architecture</a>
+      <a href="#layers">🗺️ Map Layers</a>
+      <a href="#tools">🛠️ Tools & Functionalities</a>
+      <a href="#datasrc">📊 Data Sources</a>
+      <a href="#filestruct">🗃️ File Structure</a>
+      <a href="#users">👤 Target Users</a>
+      <a href="#challenges">📌 Challenges</a>
+      <a href="#future">🔮 Future Enhancements</a>
+      <a href="#references">📚 References</a>
+    </div>
+
+    <div class="section" id="intro">
+      <span class="section-highlight"><i class="bi bi-lightbulb"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#introCollapse" aria-expanded="true" aria-controls="introCollapse">
+          🧩 Introduction
+        </button>
+      </h4>
+      <div class="collapse show" id="introCollapse">
+        <p>This mini project is focused on mapping and analyzing <strong>health facilities in Nepal</strong> using WebGIS technology. The goal is to provide an interactive platform for visualizing the spatial distribution of healthcare services at multiple administrative levels.</p>
+      </div>
+    </div>
+
+    <div class="section" id="arch">
+      <span class="section-highlight"><i class="bi bi-diagram-3"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#archCollapse" aria-expanded="false" aria-controls="archCollapse">
+          🧱 Architecture
+        </button>
+      </h4>
+      <div class="collapse" id="archCollapse">
+        <p>This application is built on a three-tier architecture:</p>
+        <ul>
+          <li><strong>Presentation tier:</strong> HTML, CSS, JavaScript with Leaflet.js for map interaction</li>
+          <li><strong>Middleware tier:</strong> GeoServer for serving spatial layers (WMS/WFS)</li>
+          <li><strong>Data tier:</strong> PostgreSQL/PostGIS for spatial data storage and queries</li>
+        </ul>
+        <div class="text-muted">Tip: Hover for architecture diagram preview.</div>
+        <img src="https://i.imgur.com/7q3tWnB.png" alt="Architecture Diagram" class="img-fluid rounded shadow mt-3 d-none d-md-block" style="max-width: 420px; opacity:0.93;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.93">
+      </div>
+    </div>
+
+    <div class="section" id="layers">
+      <span class="section-highlight"><i class="bi bi-layers"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#layersCollapse" aria-expanded="false" aria-controls="layersCollapse">
+          🗺️ Map Layers
+        </button>
+      </h4>
+      <div class="collapse" id="layersCollapse">
+        <ul>
+          <li><strong>Base Maps:</strong> OpenStreetMap, ESRI Satellite, OpenTopoMap, CartoDB</li>
+          <li><strong>Overlay Layers:</strong> Province boundaries, District boundaries, Local units, Health facility locations</li>
+        </ul>
+        <div class="text-muted">Click any layer name for a visual example.</div>
+        <div class="mt-2">
+          <button class="btn btn-outline-warning btn-sm me-2" onclick="alert('OpenStreetMap provides a detailed and open base map for all features.')">OpenStreetMap</button>
+          <button class="btn btn-outline-warning btn-sm me-2" onclick="alert('ESRI Satellite offers high-resolution satellite imagery.')">ESRI Satellite</button>
+          <button class="btn btn-outline-warning btn-sm me-2" onclick="alert('OpenTopoMap highlights terrain and elevation.')">OpenTopoMap</button>
+          <button class="btn btn-outline-warning btn-sm" onclick="alert('CartoDB base map is clean and modern.')">CartoDB</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="tools">
+      <span class="section-highlight"><i class="bi bi-tools"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#toolsCollapse" aria-expanded="false" aria-controls="toolsCollapse">
+          🛠️ Tools & Functionalities
+        </button>
+      </h4>
+      <div class="collapse" id="toolsCollapse">
+        <p><strong>Spatial Tools:</strong></p>
+        <ul>
+          <li>
+            Buffer Tool – draw service coverage areas
+            <button class="btn btn-outline-light btn-sm ms-2" onclick="alert('The Buffer Tool lets you visualize the coverage area around a facility.');">Demo</button>
+          </li>
+          <li>
+            Nearest Facility Tool – locate closest health center
+            <button class="btn btn-outline-light btn-sm ms-2" onclick="alert('Find the nearest health facility to any selected point.');">Demo</button>
+          </li>
+          <li>
+            Feature Info Tool – give full detail of selected map feature
+            <button class="btn btn-outline-light btn-sm ms-2" onclick="alert('Get detailed info by clicking on any map feature.');">Demo</button>
+          </li>
+        </ul>
+        <p><strong>Attribute Tools:</strong></p>
+        <ul>
+          <li>Search by Name – find health facilities by name</li>
+          <li>Filter by Type – filter based on hospital/clinic/health post</li>
+          <li>View by Admin Levels – toggle visibility of local/district/province data</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section" id="datasrc">
+      <span class="section-highlight"><i class="bi bi-database"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#datasrcCollapse" aria-expanded="false" aria-controls="datasrcCollapse">
+          📊 Data Sources
+        </button>
+      </h4>
+      <div class="collapse" id="datasrcCollapse">
+        <ul>
+          <li>Administrative boundaries: Local Government Directory, MoFAGA</li>
+          <li>Health facility data: Ministry of Health and Population (MoHP), Nepal</li>
+          <li>Base maps: OpenStreetMap, ESRI, CartoDB (accessed via tile services)</li>
+          <li>All spatial data served via GeoServer from a PostGIS database</li>
+        </ul>
+        <div class="text-muted">Data is regularly updated and validated from official sources.</div>
+      </div>
+    </div>
+
+    <div class="section" id="filestruct">
+      <span class="section-highlight"><i class="bi bi-folder2-open"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#filestructCollapse" aria-expanded="false" aria-controls="filestructCollapse">
+          🗃️ File Structure (Frontend)
+        </button>
+      </h4>
+      <div class="collapse" id="filestructCollapse">
+        <ul>
+          <li><code class="copy-code">map.html</code> – Main map interface <span class="copy-hint">(Click to copy)</span></li>
+          <li><code class="copy-code">mapInit.js</code> – Map logic <span class="copy-hint">(Click to copy)</span></li>
+          <li><code class="copy-code">spatialTools.js</code> – Spatial tool functions <span class="copy-hint">(Click to copy)</span></li>
+          <li><code class="copy-code">attributeTools.js</code> – Attribute tool functions <span class="copy-hint">(Click to copy)</span></li>
+          <li><code class="copy-code">mapstyle.css</code> – Custom styling <span class="copy-hint">(Click to copy)</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section" id="users">
+      <span class="section-highlight"><i class="bi bi-people"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#usersCollapse" aria-expanded="false" aria-controls="usersCollapse">
+          👤 Target Users
+        </button>
+      </h4>
+      <div class="collapse" id="usersCollapse">
+        <ul>
+          <li>Public health planners and decision-makers</li>
+          <li>GIS students and researchers</li>
+          <li>Local government officials</li>
+          <li>General public interested in spatial health access</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section" id="challenges">
+      <span class="section-highlight"><i class="bi bi-exclamation-triangle"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#challengesCollapse" aria-expanded="false" aria-controls="challengesCollapse">
+          📌 Challenges & Limitations
+        </button>
+      </h4>
+      <div class="collapse" id="challengesCollapse">
+        <ul>
+          <li>Limited access to up-to-date health data</li>
+          <li>Styling WMS layers dynamically can be challenging</li>
+          <li>Browser performance can lag with many active layers</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section" id="future">
+      <span class="section-highlight"><i class="bi bi-stars"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#futureCollapse" aria-expanded="false" aria-controls="futureCollapse">
+          🔮 Future Enhancements
+        </button>
+      </h4>
+      <div class="collapse" id="futureCollapse">
+        <ul>
+          <li>Add real-time data integration (live updates)</li>
+          <li>Enable mobile-friendly UI and responsive design</li>
+          <li>Implement user login and saved queries</li>
+          <li>Introduce multi-language support (English/Nepali)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section" id="references">
+      <span class="section-highlight"><i class="bi bi-book"></i></span>
+      <h4>
+        <button class="section-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#referencesCollapse" aria-expanded="false" aria-controls="referencesCollapse">
+          📚 References
+        </button>
+      </h4>
+      <div class="collapse" id="referencesCollapse">
+        <ul>
+          <li>Leaflet.js Documentation</li>
+          <li>GeoServer User Manual</li>
+          <li>PostGIS Documentation</li>
+          <li>MoHP Health Facility Data Portal</li>
+          <li>OpenStreetMap and CartoDB tile services</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Button and Modal -->
+  <button class="feedback-btn" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+    <i class="bi bi-chat-dots"></i> Feedback
+  </button>
+  <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" id="feedbackForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="feedbackModalLabel"><i class="bi bi-chat-dots"></i> Submit Feedback</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="feedbackText" class="form-label">Your feedback or question:</label>
+            <textarea class="form-control" id="feedbackText" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="feedbackEmail" class="form-label">Email (optional):</label>
+            <input type="email" class="form-control" id="feedbackEmail" placeholder="you@example.com">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-warning">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Copy code block text to clipboard
+    document.querySelectorAll('.copy-code').forEach(function(codeBlock) {
+      codeBlock.addEventListener('click', function() {
+        navigator.clipboard.writeText(codeBlock.textContent);
+        codeBlock.classList.add('copied');
+        setTimeout(() => codeBlock.classList.remove('copied'), 900);
+      });
+    });
+
+    // Feedback form submission (demo only)
+    document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const text = document.getElementById('feedbackText').value.trim();
+      if (text.length < 4) {
+        alert('Please enter your feedback.');
+        return;
+      }
+      alert('Thank you for your feedback!');
+      document.getElementById('feedbackForm').reset();
+      var modal = bootstrap.Modal.getInstance(document.getElementById('feedbackModal'));
+      modal.hide();
+    });
+
+    // Smooth scroll for Table of Contents links
+    document.querySelectorAll('.toc a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href').replace('#','');
+        const target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({behavior: 'smooth'});
+        }
+      });
+    });
+  </script>
+</body>
+</html>

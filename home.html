@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Health Facilities WebGIS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Bootstrap CSS & Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #192734 0%, #283e51 100%);
+      color: #f8f9fa;
+      min-height: 100vh;
+      font-family: 'Roboto', sans-serif;
+      letter-spacing: 0.01em;
+    }
+    .navbar {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 0 0 1rem 1rem;
+    }
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.7rem;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .nav-link.active, .nav-link:hover {
+      color: #ffc107 !important;
+      font-weight: 600;
+      border-bottom: 2.5px solid #ffc107;
+      transition: border-bottom 0.2s, color 0.2s;
+      background: linear-gradient(90deg, #ffc10722 0%, #fff00011 100%);
+      border-radius: 0.3rem;
+    }
+    .hero {
+      background: url('/Map/icons/homebackground.jpg') no-repeat center center/cover;
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      color: white;
+      border-radius: 1.15rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+    }
+    .hero:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(25, 39, 52, 0.7);
+      border-radius: 1.15rem;
+      z-index: 0;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    .display-4 {
+      text-shadow: 0 2px 12px rgba(0,0,0,0.22);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .btn-warning {
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      transition: background-color 0.3s, color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(255,193,7,0.09);
+      border-radius: 2rem;
+      padding: 0.7rem 2.1rem;
+      font-size: 1.15rem;
+      margin-top: 0.7rem;
+    }
+    .btn-warning:hover, .btn-warning:focus {
+      background-color: #ffe082;
+      color: #283e51;
+      box-shadow: 0 4px 16px rgba(255,193,7,0.18);
+    }
+    .features {
+      background: rgba(25, 39, 52, 0.95);
+      padding: 60px 0;
+      border-radius: 1.15rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: -60px;
+      position: relative;
+      z-index: 1;
+    }
+    .features:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+    }
+    .features h2 {
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 2.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    .features h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #ffc107 40%, #ffe082 100%);
+      border-radius: 2px;
+      margin: 10px auto 0 auto;
+      opacity: 0.8;
+      transition: width 0.3s;
+    }
+    .features:hover h2::after {
+      width: 100px;
+    }
+    .feature-card {
+      background: #2c3e50;
+      border: none;
+      color: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      transition: transform 0.22s, box-shadow 0.22s, border 0.22s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 10px 40px rgba(255,193,7,0.20), 0 10px 40px rgba(0,0,0,0.25);
+      border: 1.5px solid #ffc107;
+    }
+    .feature-card .card-title {
+      font-weight: 600;
+      font-size: 1.18rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.7rem;
+    }
+    .feature-card .card-text {
+      font-size: 1.03rem;
+      color: #ffe082;
+      letter-spacing: 0.01em;
+    }
+    footer {
+      background-color: #111;
+      padding: 20px;
+      text-align: center;
+      color: #b0b8c1;
+      font-size: 0.98rem;
+      border-radius: 0 0 1rem 1rem;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+      margin-top: 2.5rem;
+      letter-spacing: 0.02em;
+    }
+    /* Custom scrollbar for modern look */
+    ::-webkit-scrollbar {
+      width: 7px;
+      background: #232b32;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ffc10766;
+      border-radius: 8px;
+    }
+    @media (max-width: 600px) {
+      .hero {
+        height: 60vh;
+        border-radius: 0.5rem;
+      }
+      .features {
+        padding: 40px 0;
+        border-radius: 0.5rem;
+        margin-top: -30px;
+      }
+      .feature-card {
+        border-radius: 0.5rem;
+      }
+      .display-4 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔸 Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand text-warning" href="home.html">HealthGIS</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="map.html">Map</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="documentation.html">Documentation</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 🔹 Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <h1 class="display-4 text-warning">Health Facilities WebGIS</h1>
+      <p class="lead">Explore and analyze healthcare service availability across Nepal.</p>
+      <a href="map.html" class="btn btn-warning btn-lg mt-3">Launch Interactive Map</a>
+    </div>
+  </section>
+
+  <!-- 🔧 Features Section -->
+  <section class="features">
+    <div class="container text-center">
+      <h2 class="text-warning mb-5">Key Features</h2>
+      <div class="row g-4">
+
+        <div class="col-md-4">
+          <div class="card feature-card h-100">
+            <div class="card-body">
+              <h5 class="card-title text-warning"><i class="bi bi-geo-alt-fill me-2"></i>Spatial Tools</h5>
+              <p class="card-text">Buffer generation, nearest facility finder, and interactive feature info retrieval.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card feature-card h-100">
+            <div class="card-body">
+              <h5 class="card-title text-warning"><i class="bi bi-funnel-fill me-2"></i>Attribute Tools</h5>
+              <p class="card-text">Search by name, filter by type, and display facilities by province, district, or local level.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card feature-card h-100">
+            <div class="card-body">
+              <h5 class="card-title text-warning"><i class="bi bi-layers-fill me-2"></i>Multiple Layers</h5>
+              <p class="card-text">Includes administrative boundaries (province, district, local units) and health facility layers via WMS/WFS.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 🔚 Footer -->
+  <footer>
+    &copy; 2025 Sonik Neupane, Swornim Shrestha, Supriya Silwal | Kathmandu University | WebGIS
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

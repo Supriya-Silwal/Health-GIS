@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Health Facilities Map - Nepal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Bootstrap & Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="mapstyles.css" />
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #192734 0%, #283e51 100%);
+      color: #f8f9fa;
+      min-height: 100vh;
+      font-family: 'Roboto', Arial, sans-serif;
+      letter-spacing: 0.01em;
+      overflow-x: hidden;
+    }
+    .navbar {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 0 0 1rem 1rem;
+    }
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.7rem;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .nav-link.active, .nav-link:hover {
+      color: #ffc107 !important;
+      font-weight: 600;
+      border-bottom: 2.5px solid #ffc107;
+      transition: border-bottom 0.2s, color 0.2s;
+      background: linear-gradient(90deg, #ffc10722 0%, #fff00011 100%);
+      border-radius: 0.3rem;
+    }
+    header {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #ffc107;
+      letter-spacing: 1px;
+      text-align: center;
+      margin: 2.2rem 0 1.2rem 0;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.22);
+    }
+    .main-content {
+      display: flex;
+      flex-direction: row;
+      max-width: 100vw;
+      min-height: 70vh;
+      margin-bottom: 2rem;
+    }
+    .side-panel {
+      width: 340px;
+      min-width: 280px;
+      max-width: 400px;
+      background: rgba(25, 39, 52, 0.97);
+      border-radius: 1.1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      padding: 2rem 1.2rem 1.2rem 1.2rem;
+      margin-right: 2rem;
+      margin-left: 1.5rem;
+      height: fit-content;
+      position: sticky;
+      top: 2.5rem;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .map-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      margin-right: 1rem;
+    }
+    #map {
+      height: 65vh;
+      width: 100%;
+      border-radius: 1.1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.16);
+      margin-bottom: 2rem;
+      background: #232b32;
+      border: 1.5px solid #232b32;
+      transition: box-shadow 0.2s;
+    }
+    #map:hover {
+      box-shadow: 0 8px 32px rgba(255,193,7,0.08), 0 8px 32px rgba(0,0,0,0.22);
+    }
+    .panel-section {
+      margin-bottom: 1.8rem;
+    }
+    .panel-section h3 {
+      color: #ffc107;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      font-size: 1.18rem;
+    }
+    .panel-section h3 i {
+      color: #ffe082;
+      font-size: 1.25em;
+      margin-right: 0.5em;
+    }
+    select, input[type="number"], input[type="text"] {
+      border-radius: 0.4rem;
+      border: 1px solid #ffc107;
+      padding: 0.35rem 0.7rem;
+      background: #232b32;
+      color: #fff;
+      margin-bottom: 0.7rem;
+      margin-right: 0.5rem;
+      font-size: 1.05rem;
+      transition: border 0.2s;
+      width: 100%;
+      max-width: 100%;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border: 2px solid #ffe082;
+      background: #232b32;
+      color: #fff;
+    }
+    button, #activateBuffer, #runFacilitySearch, #runTypeFilter, #viewAdminFacilitiesBtn, #closeModalBtn, #closeFeatureInfoBtn {
+      background: #ffc107;
+      color: #192734;
+      font-weight: 600;
+      border: none;
+      border-radius: 1.5rem;
+      padding: 0.4rem 1.2rem;
+      margin-top: 0.2rem;
+      margin-bottom: 0.3rem;
+      box-shadow: 0 2px 8px rgba(255,193,7,0.09);
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      font-size: 1.02rem;
+      letter-spacing: 0.02em;
+    }
+    button:hover, #activateBuffer:hover, #runFacilitySearch:hover, #runTypeFilter:hover, #viewAdminFacilitiesBtn:hover, #closeModalBtn:hover, #closeFeatureInfoBtn:hover {
+      background: #ffe082;
+      color: #283e51;
+    }
+    label {
+      color: #ffe082;
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+    .hidden {
+      display: none !important;
+    }
+    .modal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      z-index: 3000 !important;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: rgba(25, 39, 52, 0.85);
+      transition: opacity 0.2s;
+    }
+    .modal-content {
+      background: #232b32;
+      color: #f8f9fa;
+      border-radius: 1.1rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      min-width: 290px;
+      max-width: 420px;
+      margin: auto;
+      text-align: left;
+      position: relative;
+      animation: popIn 0.22s;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.92); opacity: 0.6; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-content h3 {
+      color: #ffc107;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .modal-content table {
+      background: #283e51;
+      color: #fff;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .modal-content th, .modal-content td {
+      border: 1px solid #ffc107;
+      padding: 0.4em 0.7em;
+      text-align: left;
+    }
+    .modal-content th {
+      background: #ffc107;
+      color: #192734;
+      font-weight: 600;
+    }
+    .modal-content button {
+      width: 100%;
+      margin-top: 1rem;
+    }
+    #toolOutput, #attributeOutput {
+      margin-top: 1rem;
+      color: #ffe082;
+      font-size: 1.08rem;
+      font-weight: 500;
+    }
+    @media (max-width: 1200px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .side-panel {
+        width: 100%;
+        max-width: 100vw;
+        margin: 0 auto 2rem auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        position: static;
+      }
+      .map-panel {
+        margin-right: 0;
+      }
+    }
+    @media (max-width: 767px) {
+      .side-panel {
+        padding: 1rem 0.4rem 0.8rem 0.4rem;
+        border-radius: 0.7rem;
+        margin: 0 auto 1.2rem auto;
+      }
+      .panel-section {
+        margin-bottom: 1.2rem;
+      }
+    }
+    ::-webkit-scrollbar {
+      width: 7px;
+      background: #232b32;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ffc10766;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 🔸 Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand text-warning" href="home.html">HealthGIS</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#">Map</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="documentation.html">Documentation</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header>🏥 Health Facilities Mapping in Nepal</header>
+
+  <div class="main-content">
+    <div class="side-panel">
+      <!-- Spatial Tools Panel -->
+      <div class="panel-section" id="spatialToolsPanel">
+        <h3><i class="bi bi-geo-alt-fill"></i>Spatial Tools</h3>
+        <select id="toolSelector">
+          <option value="">-- Select a Tool --</option>
+          <option value="buffer">Buffer Tool</option>
+          <option value="nearestMeasure">Distance to Nearest Facility</option>
+          <option value="info">Feature Info</option>
+        </select>
+        <div id="bufferInputBox" class="hidden">
+          <label for="bufferDistance">Buffer Distance (meters):</label>
+          <input type="number" id="bufferDistance" placeholder="Enter distance" />
+          <button id="activateBuffer">Apply Buffer</button>
+        </div>
+        <div id="bufferInfoBox" class="hidden">
+          <h4>Hospitals Inside Buffer</h4>
+          <ul id="bufferFacilityList"></ul>
+        </div>
+        <!-- Modal Box for Hospital List -->
+        <div id="hospitalModal" class="modal hidden">
+          <div class="modal-content">
+            <h3><i class="bi bi-hospital"></i> Hospitals Inside Buffer</h3>
+            <p id="hospitalCount"></p>
+            <table id="modalHospitalList" border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <button id="closeModalBtn">OK</button>
+          </div>
+        </div>
+        <!-- Feature Info Modal -->
+        <div id="featureInfoModal" class="modal hidden">
+          <div class="modal-content">
+            <h3><i class="bi bi-info-circle"></i> Feature Info</h3>
+            <div id="featureInfoContent"></div>
+            <button id="closeFeatureInfoBtn">Close</button>
+          </div>
+        </div>
+        <div id="toolOutput"></div>
+      </div>
+
+      <!-- Attribute Tools Panel -->
+      <div class="panel-section" id="attributeToolsPanel">
+        <h3><i class="bi bi-funnel-fill"></i>Attribute Tools</h3>
+        <select id="attributeSelector">
+          <option value="">-- Select Attribute Tool --</option>
+          <option value="searchByName">Search by Facility Name</option>
+          <option value="filterByType">Filter Facilities by Type</option>
+          <option value="viewByAdmin">View by Administrative Unit</option>
+        </select>
+        <div id="attributeSearchBox" class="hidden">
+          <label for="facilityNameInput">Enter Facility Name:</label>
+          <input type="text" id="facilityNameInput" placeholder="e.g., Manipal" />
+          <button id="runFacilitySearch">Search</button>
+          <ul id="searchResultList"></ul>
+        </div>
+        <div id="filterTypeBox" class="hidden">
+          <label for="typeSelector">Select Facility Type:</label>
+          <select id="typeSelector">
+            <option value="">-- Select Type --</option>
+            <option value="hospital">Hospital</option>
+            <option value="clinic">Clinic</option>
+            <option value="pharmacy">Pharmacy</option>
+            <option value="health_post">Health Post</option>
+            <option value="dentist">Dentist</option>
+          </select>
+          <button id="runTypeFilter">Filter</button>
+          <p id="filterResultCount"></p>
+        </div>
+        <div id="viewByAdminBox" class="hidden">
+          <label for="adminLevelSelect">Select Administrative Level:</label>
+          <select id="adminLevelSelect">
+            <option value="">-- Choose --</option>
+            <option value="district">District</option>
+            <option value="local_unit">Local Level</option>
+          </select>
+          <div id="adminNameSelectBox" class="hidden">
+            <label for="adminNameSelect">Select Area:</label>
+            <select id="adminNameSelect"></select>
+          </div>
+          <button id="viewAdminFacilitiesBtn">View Facilities</button>
+          <p id="adminFacilityCount"></p>
+        </div>
+        <div id="attributeOutput"></div>
+      </div>
+    </div>
+
+    <div class="map-panel">
+      <div id="map"></div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script type="module" src="mapInit.js"></script>
+  <script type="module" src="spatialTools.js"></script>
+  <script src="attributeTools.js"></script>
+  <script>
+    // Initialize attribute tools after map is created
+    initAttributeTools(map);
+  </script>
+</body>
+</html>

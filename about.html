@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About - HealthGIS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS & Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #192734 0%, #283e51 100%);
+      color: #f8f9fa;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      letter-spacing: 0.01em;
+    }
+    h2, h4 {
+      color: #ffc107;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+    .navbar {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 0 0 1rem 1rem;
+    }
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.7rem;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .nav-link.active, .nav-link:hover {
+      color: #ffc107 !important;
+      font-weight: 600;
+      border-bottom: 2.5px solid #ffc107;
+      transition: border-bottom 0.2s, color 0.2s;
+      background: linear-gradient(90deg, #ffc10722 0%, #fff00011 100%);
+      border-radius: 0.3rem;
+    }
+    .container {
+      max-width: 900px;
+    }
+    .section {
+      margin-bottom: 2.5rem;
+      background: rgba(25, 39, 52, 0.97);
+      border-radius: 1.15rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.16);
+      padding: 2.2rem 2.1rem 1.7rem 2.1rem;
+      transition: transform 0.22s, box-shadow 0.22s;
+      position: relative;
+      overflow: hidden;
+    }
+    .section:hover {
+      transform: translateY(-4px) scale(1.012);
+      box-shadow: 0 12px 40px rgba(255,193,7,0.10), 0 8px 32px rgba(0,0,0,0.22);
+      border: 1.5px solid #ffc107;
+    }
+    .section::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle at 40% 40%, #ffc10722 0%, transparent 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .section > * {
+      position: relative;
+      z-index: 1;
+    }
+    ul {
+      list-style-type: square;
+      padding-left: 1.5rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 1.08rem;
+      line-height: 1.7;
+    }
+    strong {
+      color: #ffe082;
+      font-weight: 600;
+    }
+    .text-muted {
+      color: #b0b8c1 !important;
+      font-size: 1.01rem;
+      font-style: italic;
+      letter-spacing: 0.01em;
+    }
+    /* Subtle divider between sections */
+    .section:not(:last-child) {
+      border-bottom: 1px solid #232b32;
+    }
+    /* Animated underline for h4 */
+    h4 {
+      display: inline-block;
+      position: relative;
+      padding-bottom: 2px;
+    }
+    h4::after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, #ffc107 40%, #ffe082 100%);
+      border-radius: 2px;
+      margin-top: 6px;
+      margin-left: 2px;
+      opacity: 0.8;
+      transition: width 0.3s;
+    }
+    .section:hover h4::after {
+      width: 75px;
+    }
+    /* Custom scrollbar for modern look */
+    ::-webkit-scrollbar {
+      width: 7px;
+      background: #232b32;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ffc10766;
+      border-radius: 8px;
+    }
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      .container {
+        padding: 0 0.5rem;
+      }
+      .section {
+        padding: 1.2rem 1rem 1rem 1rem;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+      h4 {
+        font-size: 1.08rem;
+      }
+    }
+    /* Button style for links (if any) */
+    .btn-link {
+      color: #ffc107;
+      font-weight: 500;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    .btn-link:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand text-warning" href="home.html">HealthGIS</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="map.html">Map</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="documentation.html">Documentation</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <h2 class="mb-4 text-center">About This Project</h2>
+
+    <div class="section">
+      <p>
+        This WebGIS application is a mini-project designed to visualize and analyze <strong>health facilities in Nepal</strong> using geospatial technologies. It provides users with interactive tools to explore the spatial distribution of healthcare services across different administrative levels — local, district, and provincial.
+      </p>
+    </div>
+
+    <div class="section">
+      <h4>🔧 Project Overview</h4>
+      <ul>
+        <li><strong>Project Type:</strong> Geospatial Mini-Project</li>
+        <li><strong>Architecture:</strong> Three-tier (Presentation, Logic, Data Layers)</li>
+        <li><strong>Study Area:</strong> Nepal (Nationwide — all provinces, districts and local units)</li>
+        <li><strong>Developed By:</strong> Sonik Neupane, Swornim Shrestha, Supriya Silwal</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h4>🗺️ Map Layers</h4>
+      <ul>
+        <li><strong>Base Maps:</strong> OpenStreetMap, ESRI Satellite, Open TopoMap, CartoDB Positron</li>
+        <li><strong>Overlay Layers:</strong> Local Level, District Level, Province Level, Health Facilities Location</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h4>🛠️ Functionalities</h4>
+      <p><strong>Spatial Tools:</strong></p>
+      <ul>
+        <li>Buffer Analysis</li>
+        <li>Distance to Nearest Facility</li>
+        <li>Feature Info</li>
+      </ul>
+      <p><strong>Attribute Tools:</strong></p>
+      <ul>
+        <li>Search by Name</li>
+        <li>Filter by Facility Type</li>
+        <li>Identify Feature with Details</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h4>📦 Technology Stack</h4>
+      <ul>
+        <li>Leaflet.js for interactive mapping</li>
+        <li>GeoServer for spatial data services</li>
+        <li>PostGIS for geospatial database support</li>
+        <li>HTML5, CSS3, JavaScript for front-end interface</li>
+        <li>JavaScript for back-end</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h4>👥 Target Users</h4>
+      <ul>
+        <li>Public health planners</li>
+        <li>Government and local officials</li>
+        <li>Researchers and students</li>
+        <li>General public interested in healthcare accessibility</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <p class="text-muted">This application demonstrates the integration of geospatial data with modern web technologies to support informed decision-making in public health planning in Nepal.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
